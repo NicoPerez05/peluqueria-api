@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  CLIENT
+  PELUQUERO
+  ADMIN
+}
+
+enum TurnoEstado{
+  CONFIRMADO
+  RECHAZADO
+  CANCELADO
+  PENDIENTE
+  COMPLETADO
+}
+
+model Usuario{
+  id         Int @id @default(autoincrement())
+  nombre     String
+  apellido   String
+  DNI        String @unique
+  email      String @unique
+  numeroTelefono  String
+  password   String
+  rol         Rol @default(CLIENT)
+  turnos Turno[] @relation("ClienteTurnos")
+
+  turnosPeluquero Turno[] @relation("PeluqueroTurnos")
+  horarios Horario[]
+
+}
+
+model Turno{
+  id      Int @id @default(autoincrement())
+  cliente  Usuario  @relation("ClienteTurnos", fields: [id_cliente], references: [id])
+  id_cliente Int
+  peluquero Usuario? @relation("PeluqueroTurnos", fields: [id_peluquero], references: [id])
+  id_peluquero Int?
+  servicio Servicio @relation(fields:[id_servicio], references: [id])
+  id_servicio Int
+  horario Horario @relation(fields: [id_horario], references: [id])
+  id_horario Int @unique
+  estado TurnoEstado @default(PENDIENTE) 
+  precio_final Float
+  motivo_cancelacion String?
+}
+
+model Servicio{
+  id  Int @id @default(autoincrement())
+  nombre_servicio String
+  precio_servicio Float
+  turnos Turno[]
+}
+
+model Horario{
+  id  Int @id @default(autoincrement())
+  fecha_hora  DateTime
+  disponible  Boolean @default(true)
+  peluquero Usuario @relation(fields:[id_peluquero], references: [id])
+  id_peluquero Int
+
+  turno Turno?
+}
