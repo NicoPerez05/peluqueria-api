@@ -21,6 +21,10 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+<<<<<<< HEAD
+=======
+    "@nestjs/config": "^4.0.4",
+>>>>>>> 5e927dd (feat: configurar AppModule con todos los modulos y prismaService)
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
