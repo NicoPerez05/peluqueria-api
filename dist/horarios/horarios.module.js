@@ -10,12 +10,15 @@ exports.HorariosModule = void 0;
 const common_1 = require("@nestjs/common");
 const horarios_service_1 = require("./horarios.service");
 const horarios_controller_1 = require("./horarios.controller");
+const prisma_service_1 = require("../prisma.service");
+const auth_module_1 = require("../auth/auth.module");
 let HorariosModule = class HorariosModule {
 };
 exports.HorariosModule = HorariosModule;
 exports.HorariosModule = HorariosModule = __decorate([
     (0, common_1.Module)({
-        providers: [horarios_service_1.HorariosService],
+        imports: [auth_module_1.AuthModule],
+        providers: [horarios_service_1.HorariosService, prisma_service_1.PrismaService],
         controllers: [horarios_controller_1.HorariosController]
     })
 ], HorariosModule);

@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HorariosService } from './horarios.service';
+import { PrismaService } from '../prisma.service';
 
 describe('HorariosService', () => {
   let service: HorariosService;
